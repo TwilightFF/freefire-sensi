@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Las mejores sensibilidades para Free Fire - configuraciones pro, guías y descargas" />
+  <title>FF Sensi Pro — Sensibilidades Free Fire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span>FF<em>Sensi</em>Pro</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#sensibilidades">Sensibilidades</a></li>
+        <li><a href="#configuracion">Config</a></li>
+        <li><a href="#tips">Tips Pro</a></li>
+        <li><a href="#descargas">Descargas</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-bg">
+      <div class="hex-grid"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Actualizado 2024 · Temporada activa
+      </div>
+      <h1 class="hero-title">
+        Las mejores<br/>
+        <span class="hero-accent">Sensibilidades</span><br/>
+        Free Fire
+      </h1>
+      <p class="hero-sub">
+        Configuraciones usadas por jugadores pro. Ajusta tu mira,<br/>
+        mejora tu puntería y domina cada partida.
+      </p>
+      <div class="hero-btns">
+        <a href="#sensibilidades" class="btn btn-primary">Ver sensibilidades</a>
+        <a href="#descargas" class="btn btn-ghost">Descargar configs</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">15+</span>
+        <span class="stat-label">Configs Pro</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">4K</span>
+        <span class="stat-label">Jugadores</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Gratis</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── SECCIÓN: SENSIBILIDADES ── -->
+  <section id="sensibilidades" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Configuraciones</span>
+        <h2 class="section-title">Sensibilidades <span class="accent">Pro</span></h2>
+        <p class="section-desc">Elige según tu estilo de juego. Cada config está testeada en ranked.</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="sniper">Sniper</button>
+        <button class="filter-btn" data-filter="rushero">Rush</button>
+        <button class="filter-btn" data-filter="equilibrado">Equilibrado</button>
+        <button class="filter-btn" data-filter="movil">Móvil</button>
+      </div>
+
+      <!-- Cards de sensibilidades -->
+      <div class="sensi-grid" id="sensiGrid">
+
+        <!-- Card 1 -->
+        <div class="sensi-card" data-cat="rushero">
+          <div class="card-header">
+            <div class="card-badge badge-red">Rush</div>
+            <div class="card-rank">
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <h3 class="card-title">Config Rush Agresivo</h3>
+          <p class="card-desc">Alta velocidad de giro para enfrentamientos cortos y aperturas rápidas.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:78%"></div></div>
+              <span class="val-num">100</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:60%"></div></div>
+              <span class="val-num">77</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:50%"></div></div>
+              <span class="val-num">64</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:40%"></div></div>
+              <span class="val-num">52</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:28%"></div></div>
+              <span class="val-num">36</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '100,77,64,52,36')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="sensi-card" data-cat="equilibrado">
+          <div class="card-header">
+            <div class="card-badge badge-blue">Equilibrado</div>
+            <div class="card-rank"><span>★★★★★</span></div>
+          </div>
+          <h3 class="card-title">Config Equilibrada Pro</h3>
+          <p class="card-desc">La favorita de la mayoría. Funciona para cualquier arma y situación.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:62%"></div></div>
+              <span class="val-num">80</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:54%"></div></div>
+              <span class="val-num">70</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:46%"></div></div>
+              <span class="val-num">60</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:38%"></div></div>
+              <span class="val-num">50</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:25%"></div></div>
+              <span class="val-num">32</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '80,70,60,50,32')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="sensi-card" data-cat="sniper">
+          <div class="card-header">
+            <div class="card-badge badge-orange">Sniper</div>
+            <div class="card-rank"><span>★★★★☆</span></div>
+          </div>
+          <h3 class="card-title">Config Francotirador</h3>
+          <p class="card-desc">Precisión máxima en mirillas largas. Ideal para jugar desde la distancia.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:46%"></div></div>
+              <span class="val-num">60</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:40%"></div></div>
+              <span class="val-num">52</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:35%"></div></div>
+              <span class="val-num">45</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:28%"></div></div>
+              <span class="val-num">36</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:18%"></div></div>
+              <span class="val-num">24</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '60,52,45,36,24')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="sensi-card" data-cat="movil">
+          <div class="card-header">
+            <div class="card-badge badge-green">Móvil</div>
+            <div class="card-rank"><span>★★★★☆</span></div>
+          </div>
+          <h3 class="card-title">Config para Pantallas Pequeñas</h3>
+          <p class="card-desc">Optimizada para teléfonos con pantalla de 5" o menos. Control preciso.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:54%"></div></div>
+              <span class="val-num">70</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:48%"></div></div>
+              <span class="val-num">62</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:42%"></div></div>
+              <span class="val-num">55</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:34%"></div></div>
+              <span class="val-num">44</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:22%"></div></div>
+              <span class="val-num">28</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '70,62,55,44,28')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="sensi-card featured" data-cat="equilibrado rushero">
+          <div class="card-header">
+            <div class="card-badge badge-yellow">⚡ Pro Pick</div>
+            <div class="card-rank"><span>★★★★★</span></div>
+          </div>
+          <h3 class="card-title">Config del Momento (Meta)</h3>
+          <p class="card-desc">La más usada en torneos 2024. Altísima precisión con velocidad de giro media-alta.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:69%"></div></div>
+              <span class="val-num">90</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:58%"></div></div>
+              <span class="val-num">75</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:50%"></div></div>
+              <span class="val-num">65</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:42%"></div></div>
+              <span class="val-num">54</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:30%"></div></div>
+              <span class="val-num">39</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '90,75,65,54,39')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="sensi-card" data-cat="rushero">
+          <div class="card-header">
+            <div class="card-badge badge-red">Rush</div>
+            <div class="card-rank"><span>★★★☆☆</span></div>
+          </div>
+          <h3 class="card-title">Config Full Rush</h3>
+          <p class="card-desc">Máxima velocidad. Solo para jugadores con mucha práctica. Difícil de controlar al inicio.</p>
+          <div class="sensi-values">
+            <div class="val-row">
+              <span class="val-label">General</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:100%"></div></div>
+              <span class="val-num">100</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Mira roja</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:85%"></div></div>
+              <span class="val-num">100</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">2x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:70%"></div></div>
+              <span class="val-num">90</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">4x</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:60%"></div></div>
+              <span class="val-num">78</span>
+            </div>
+            <div class="val-row">
+              <span class="val-label">Francotirador</span>
+              <div class="val-bar"><div class="val-fill" style="--pct:40%"></div></div>
+              <span class="val-num">52</span>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copySensi(this, '100,100,90,78,52')">
+            <span class="copy-icon">⧉</span> Copiar valores
+          </button>
+        </div>
+
+      </div><!-- /sensi-grid -->
+    </div>
+  </section>
+
+  <!-- ── SECCIÓN: CONFIGURACIÓN VISUAL ── -->
+  <section id="configuracion" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Ajustes</span>
+        <h2 class="section-title">Configuración <span class="accent">Completa</span></h2>
+        <p class="section-desc">Además de la sensibilidad, estos ajustes marcan la diferencia.</p>
+      </div>
+
+      <div class="config-grid">
+
+        <div class="config-block">
+          <div class="config-icon">🎯</div>
+          <h3>Ajustes de mira</h3>
+          <ul class="config-list">
+            <li><span class="cfg-key">Tipo de mira</span><span class="cfg-val">Cruz simple</span></li>
+            <li><span class="cfg-key">Color mira</span><span class="cfg-val">Rojo / Verde</span></li>
+            <li><span class="cfg-key">Tamaño</span><span class="cfg-val">Mínimo posible</span></li>
+            <li><span class="cfg-key">Opacidad</span><span class="cfg-val">100%</span></li>
+          </ul>
+        </div>
+
+        <div class="config-block">
+          <div class="config-icon">📱</div>
+          <h3>Control HUD</h3>
+          <ul class="config-list">
+            <li><span class="cfg-key">Botón disparo</span><span class="cfg-val">Lado izquierdo</span></li>
+            <li><span class="cfg-key">Agacharse</span><span class="cfg-val">Botón fijo</span></li>
+            <li><span class="cfg-key">Esquivar</span><span class="cfg-val">Deslizar</span></li>
+            <li><span class="cfg-key">Dedos</span><span class="cfg-val">3–4 dedos</span></li>
+          </ul>
+        </div>
+
+        <div class="config-block">
+          <div class="config-icon">🖥️</div>
+          <h3>Gráficos</h3>
+          <ul class="config-list">
+            <li><span class="cfg-key">Calidad</span><span class="cfg-val">Media (más FPS)</span></li>
+            <li><span class="cfg-key">FPS</span><span class="cfg-val">60 o Max</span></li>
+            <li><span class="cfg-key">Sombras</span><span class="cfg-val">Apagadas</span></li>
+            <li><span class="cfg-key">Efectos especiales</span><span class="cfg-val">Mínimo</span></li>
+          </ul>
+        </div>
+
+        <div class="config-block">
+          <div class="config-icon">⚙️</div>
+          <h3>Controles generales</h3>
+          <ul class="config-list">
+            <li><span class="cfg-key">Auto-correr</span><span class="cfg-val">Activado</span></li>
+            <li><span class="cfg-key">Auto-recogida</span><span class="cfg-val">Activado</span></li>
+            <li><span class="cfg-key">Disparo automático</span><span class="cfg-val">Desactivado</span></li>
+            <li><span class="cfg-key">Scope auto</span><span class="cfg-val">Desactivado</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECCIÓN: TIPS PRO ── -->
+  <section id="tips" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Consejos</span>
+        <h2 class="section-title">Tips <span class="accent">Profesionales</span></h2>
+        <p class="section-desc">Lo que los mejores jugadores hacen diferente.</p>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-num">01</div>
+          <h4>Practica en entrenamiento</h4>
+          <p>Antes de usar una nueva sensi en ranked, pruébala al menos 30 minutos en la zona de práctica. Tu músculo necesita adaptarse.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">02</div>
+          <h4>Empieza con sensi baja</h4>
+          <p>Sensibilidad alta da velocidad pero menos control. Sube poco a poco de 5 en 5 hasta encontrar tu punto exacto.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">03</div>
+          <h4>La sensi varía por arma</h4>
+          <p>Con AR como M1887 o AUG puedes usar sensi más alta. Con SMG y pistolas es mejor media. Ajusta según tu arma favorita.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">04</div>
+          <h4>No cambies cada día</h4>
+          <p>El mayor error es cambiar la sensibilidad frecuentemente. Dale 1 semana completa a cada config antes de juzgarla.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">05</div>
+          <h4>Cuida la temperatura del móvil</h4>
+          <p>Un teléfono caliente responde diferente al tacto. Mantén el dispositivo fresco para que el táctil funcione correctamente.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">06</div>
+          <h4>Posición de los dedos</h4>
+          <p>Usar la punta del dedo (no la yema) da más precisión en el joystick de movimiento. Pequeño ajuste, gran diferencia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECCIÓN: DESCARGAS ── -->
+  <section id="descargas" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Recursos</span>
+        <h2 class="section-title">Centro de <span class="accent">Descargas</span></h2>
+        <p class="section-desc">Configs, guías y herramientas para mejorar tu juego. Todo gratis.</p>
+      </div>
+
+      <div class="download-grid">
+
+        <!-- Descarga 1 -->
+        <div class="download-card">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">📄</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Guía completa sensibilidades PDF</h4>
+            <p class="dl-desc">Manual de 12 páginas con todas las configs explicadas paso a paso.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 2.3 MB</span>
+              <span class="dl-type">PDF</span>
+            </div>
+          </div>
+          <a href="#" class="dl-btn" onclick="showDownloadMsg(event)">Descargar</a>
+        </div>
+
+        <!-- Descarga 2 -->
+        <div class="download-card">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">🎮</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Pack HUD profesional</h4>
+            <p class="dl-desc">Distribución de botones optimizada para 4 dedos. Compatible con todos los dispositivos.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 540 KB</span>
+              <span class="dl-type">JSON</span>
+            </div>
+          </div>
+          <a href="#" class="dl-btn" onclick="showDownloadMsg(event)">Descargar</a>
+        </div>
+
+        <!-- Descarga 3 -->
+        <div class="download-card">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">📊</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Tabla comparativa de sensibilidades</h4>
+            <p class="dl-desc">Hoja Excel con todas las configs ordenadas por tipo de juego y rango.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 180 KB</span>
+              <span class="dl-type">XLSX</span>
+            </div>
+          </div>
+          <a href="#" class="dl-btn" onclick="showDownloadMsg(event)">Descargar</a>
+        </div>
+
+        <!-- Descarga 4 -->
+        <div class="download-card">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">🏆</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Configs de jugadores pro (2024)</h4>
+            <p class="dl-desc">Sensibilidades reales de los top 10 jugadores del ranking latinoamericano.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 890 KB</span>
+              <span class="dl-type">PDF</span>
+            </div>
+          </div>
+          <a href="#" class="dl-btn" onclick="showDownloadMsg(event)">Descargar</a>
+        </div>
+
+        <!-- Descarga 5 — AGREGA TUS PROPIOS LINKS AQUÍ -->
+        <div class="download-card download-custom">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">🔗</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Tu archivo personalizado</h4>
+            <p class="dl-desc">Reemplaza este bloque con tu propio archivo. Edita el atributo <code>href</code> en el HTML.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 — MB</span>
+              <span class="dl-type">TU TIPO</span>
+            </div>
+          </div>
+          <a href="TU_ENLACE_AQUI" class="dl-btn dl-btn-custom">+ Añadir</a>
+        </div>
+
+        <!-- Descarga 6 — OTRO LINK PERSONALIZADO -->
+        <div class="download-card download-custom">
+          <div class="dl-icon-wrap">
+            <div class="dl-icon">🔗</div>
+          </div>
+          <div class="dl-info">
+            <h4 class="dl-title">Otro recurso propio</h4>
+            <p class="dl-desc">Agrega aquí links a videos de YouTube, Google Drive, Mediafire, etc.</p>
+            <div class="dl-meta">
+              <span class="dl-size">📦 — MB</span>
+              <span class="dl-type">LINK</span>
+            </div>
+          </div>
+          <a href="TU_ENLACE_AQUI" class="dl-btn dl-btn-custom">+ Añadir</a>
+        </div>
+
+      </div><!-- /download-grid -->
+
+      <!-- Aviso cómo agregar links -->
+      <div class="add-link-hint">
+        <p>💡 <strong>¿Cómo agregar tus propios links?</strong> Edita el archivo <code>index.html</code> en VS Code. Busca el bloque con la clase <code>download-custom</code> y cambia el <code>href="TU_ENLACE_AQUI"</code> por tu URL real (Google Drive, Mediafire, YouTube, etc.).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ZONA DE ANUNCIOS (AdSense / Personalizado) ── -->
+  <section class="ad-section">
+    <div class="container">
+      <p class="ad-label">Publicidad</p>
+      <div class="ad-slot">
+        <!-- 
+          COLOCA AQUÍ TU CÓDIGO DE GOOGLE ADSENSE:
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+               data-ad-slot="XXXXXXXXXX"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
+        <div class="ad-placeholder">
+          <span>Espacio de anuncio — 728×90</span>
+          <small>Pega tu código de AdSense aquí</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-icon">⬡</span>
+          <span class="footer-name">FF<em>Sensi</em>Pro</span>
+          <p class="footer-tagline">El mejor recurso de sensibilidades Free Fire en español.</p>
+        </div>
+        <div class="footer-links">
+          <h5>Secciones</h5>
+          <a href="#sensibilidades">Sensibilidades</a>
+          <a href="#configuracion">Configuración</a>
+          <a href="#tips">Tips Pro</a>
+          <a href="#descargas">Descargas</a>
+        </div>
+        <div class="footer-legal">
+          <h5>Legal</h5>
+          <a href="privacidad.html">Política de privacidad</a>
+          <a href="terminos.html">Términos de uso</a>
+          <p class="footer-disc">Este sitio no es oficial de Garena Free Fire. Solo fines educativos.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 FFSensiPro · Hecho con ❤️ para la comunidad</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast de copiado -->
+  <div class="toast" id="toast">✅ Valores copiados al portapapeles</div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
