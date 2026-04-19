@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — FFSensiPro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg-0:#080b10;--bg-1:#0d1117;--bg-2:#141922;--bg-3:#1c2535;
+      --border:#252d3d;--border-bright:#2e3a50;
+      --accent:#f5a623;--accent-glow:rgba(245,166,35,0.25);
+      --text-0:#f0f4ff;--text-1:#b8c4d8;--text-2:#6b7a95;
+      --card-bg:#0f1520;--card-border:#1e2a3d;
+      --red:#e63946;--green:#22c55e;
+      --font-display:'Orbitron',monospace;
+      --font-head:'Rajdhani',sans-serif;
+      --font-body:'Inter',sans-serif;
+      --radius:10px;--radius-lg:16px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--bg-0);color:var(--text-1);min-height:100vh;}
+    a{text-decoration:none;color:inherit;}
+    button{cursor:pointer;border:none;font-family:inherit;}
+
+    /* LOGIN */
+    .login-wrap{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 50% 30%,rgba(245,166,35,0.07),transparent 60%);
+    }
+    .login-box{
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:var(--radius-lg);padding:48px 40px;width:100%;max-width:400px;
+      text-align:center;
+    }
+    .login-logo{
+      font-family:var(--font-display);font-size:1.1rem;font-weight:700;
+      color:var(--text-0);margin-bottom:8px;
+    }
+    .login-logo em{color:var(--accent);font-style:normal;}
+    .login-sub{font-size:0.82rem;color:var(--text-2);margin-bottom:32px;}
+    .login-label{display:block;font-family:var(--font-head);font-size:0.82rem;font-weight:700;color:var(--text-2);text-align:left;margin-bottom:6px;}
+    .login-input{
+      width:100%;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;
+      padding:12px 14px;font-family:var(--font-body);font-size:0.95rem;color:var(--text-0);
+      outline:none;margin-bottom:16px;transition:border-color 0.2s;
+    }
+    .login-input:focus{border-color:var(--accent);}
+    .login-btn{
+      width:100%;padding:13px;background:var(--accent);color:#000;border-radius:8px;
+      font-family:var(--font-head);font-size:1rem;font-weight:700;transition:all 0.2s;
+    }
+    .login-btn:hover{background:#fdb94a;}
+    .login-error{color:var(--red);font-size:0.82rem;margin-top:10px;display:none;}
+
+    /* ADMIN PANEL */
+    .admin-wrap{display:none;}
+    .admin-nav{
+      background:var(--bg-1);border-bottom:1px solid var(--border);
+      padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:10;
+    }
+    .admin-nav-brand{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--text-0);}
+    .admin-nav-brand em{color:var(--accent);font-style:normal;}
+    .admin-nav-btns{display:flex;gap:8px;align-items:center;}
+    .admin-nav-back{font-size:0.82rem;color:var(--text-2);border:1px solid var(--border);border-radius:6px;padding:5px 12px;background:transparent;transition:all 0.2s;}
+    .admin-nav-back:hover{border-color:var(--accent);color:var(--accent);}
+    .admin-logout{font-size:0.82rem;color:var(--red);border:1px solid rgba(230,57,70,0.3);border-radius:6px;padding:5px 12px;background:transparent;transition:all 0.2s;}
+    .admin-logout:hover{background:rgba(230,57,70,0.1);}
+
+    .admin-content{max-width:1000px;margin:0 auto;padding:32px 24px;}
+    .admin-title{font-family:var(--font-head);font-size:1.6rem;font-weight:700;color:var(--text-0);margin-bottom:4px;}
+    .admin-sub{font-size:0.85rem;color:var(--text-2);margin-bottom:32px;}
+
+    .admin-tabs{display:flex;gap:6px;margin-bottom:28px;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .admin-tab{
+      padding:10px 20px;font-family:var(--font-head);font-size:0.9rem;font-weight:700;
+      color:var(--text-2);background:transparent;border:none;border-bottom:2px solid transparent;
+      margin-bottom:-1px;transition:all 0.2s;
+    }
+    .admin-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+    .admin-panel{display:none;}
+    .admin-panel.active{display:block;}
+
+    /* Cards estadísticas */
+    .stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+    .stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:18px;text-align:center;}
+    .stat-card-num{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--accent);display:block;}
+    .stat-card-label{font-size:0.75rem;color:var(--text-2);font-family:var(--font-head);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+
+    /* Tabla ideas */
+    .admin-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+    .admin-table th{font-family:var(--font-head);font-size:0.7rem;font-weight:700;color:var(--text-2);letter-spacing:1.5px;text-transform:uppercase;padding:10px 14px;border-bottom:1px solid var(--border);text-align:left;background:var(--card-bg);}
+    .admin-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text-1);background:var(--bg-0);}
+    .admin-table tr:hover td{background:var(--card-bg);}
+    .admin-table .idea-text{max-width:280px;font-size:0.82rem;color:var(--text-2);}
+    .del-btn{color:var(--red);font-size:0.78rem;border:1px solid rgba(230,57,70,0.3);border-radius:4px;padding:3px 8px;background:transparent;cursor:pointer;transition:all 0.2s;}
+    .del-btn:hover{background:rgba(230,57,70,0.1);}
+    .empty-msg{text-align:center;padding:40px;color:var(--text-2);font-size:0.88rem;}
+
+    /* Formulario ranking */
+    .ranking-form{display:flex;flex-direction:column;gap:12px;max-width:600px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end;}
+    .form-group{display:flex;flex-direction:column;gap:4px;}
+    .form-label{font-family:var(--font-head);font-size:0.78rem;font-weight:700;color:var(--text-2);}
+    .form-input{background:var(--bg-2);border:1px solid var(--border);border-radius:6px;padding:9px 10px;font-family:var(--font-body);font-size:0.85rem;color:var(--text-0);outline:none;width:100%;transition:border-color 0.2s;}
+    .form-input:focus{border-color:var(--accent);}
+    .form-select{background:var(--bg-2);border:1px solid var(--border);border-radius:6px;padding:9px 10px;font-family:var(--font-body);font-size:0.85rem;color:var(--text-0);outline:none;width:100%;}
+    .save-btn{padding:10px 20px;background:var(--accent);color:#000;border-radius:8px;font-family:var(--font-head);font-size:0.9rem;font-weight:700;align-self:flex-end;transition:all 0.2s;}
+    .save-btn:hover{background:#fdb94a;}
+    .save-btn.ghost{background:transparent;color:var(--text-2);border:1px solid var(--border);}
+    .save-btn.ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+    /* Tabla ranking admin */
+    .rank-admin-row{display:grid;grid-template-columns:40px 1fr 80px 100px 100px 50px;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg-0);transition:background 0.2s;}
+    .rank-admin-row:hover{background:var(--card-bg);}
+    .rank-admin-header{font-family:var(--font-head);font-size:0.7rem;font-weight:700;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;background:var(--card-bg);padding:8px 14px;display:grid;grid-template-columns:40px 1fr 80px 100px 100px 50px;gap:10px;border-bottom:1px solid var(--border);}
+    .rank-input{background:var(--bg-2);border:1px solid var(--border);border-radius:4px;padding:5px 8px;font-size:0.82rem;color:var(--text-0);width:100%;font-family:var(--font-body);outline:none;}
+    .rank-input:focus{border-color:var(--accent);}
+
+    /* Sección links/redes */
+    .links-form{display:flex;flex-direction:column;gap:14px;max-width:500px;}
+    .link-row{display:flex;gap:10px;align-items:center;}
+    .link-icon{font-size:1.4rem;width:32px;text-align:center;}
+    .link-desc{font-size:0.78rem;color:var(--text-2);margin-top:4px;}
+
+    .alert{padding:12px 16px;border-radius:8px;font-size:0.85rem;margin-bottom:16px;display:none;}
+    .alert-success{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--green);}
+    .alert-danger{background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.3);color:var(--red);}
+    .section-title-sm{font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--text-0);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .hint{font-size:0.78rem;color:var(--text-2);margin-top:8px;line-height:1.5;}
+    code{font-family:monospace;background:var(--bg-3);padding:2px 6px;border-radius:4px;font-size:0.82em;color:var(--accent);}
+
+    @media(max-width:600px){
+      .form-row{grid-template-columns:1fr 1fr;}
+      .rank-admin-row,.rank-admin-header{grid-template-columns:30px 1fr 60px 60px;font-size:0.75rem;}
+      .rank-admin-row>*:nth-child(5),.rank-admin-header>*:nth-child(5){display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <p class="login-logo">⬡ FF<em>Sensi</em>Pro</p>
+    <p class="login-sub">Panel de administración · Acceso restringido</p>
+    <label class="login-label">Contraseña</label>
+    <input type="password" class="login-input" id="passInput" placeholder="Ingresa tu contraseña" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <button class="login-btn" onclick="tryLogin()">Entrar al panel</button>
+    <p class="login-error" id="loginError">Contraseña incorrecta. Intenta de nuevo.</p>
+  </div>
+</div>
+
+<!-- ── ADMIN PANEL ── -->
+<div class="admin-wrap" id="adminWrap">
+
+  <nav class="admin-nav">
+    <span class="admin-nav-brand">⬡ FF<em>Sensi</em>Pro · Admin</span>
+    <div class="admin-nav-btns">
+      <a href="index.html" class="admin-nav-back">← Ver página</a>
+      <button class="admin-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="admin-content">
+    <h1 class="admin-title">Panel de Control</h1>
+    <p class="admin-sub">Gestiona el contenido de FFSensiPro desde aquí.</p>
+
+    <!-- Estadísticas rápidas -->
+    <div class="stat-cards" id="adminStats"></div>
+
+    <div class="alert alert-success" id="alertOk">Guardado correctamente.</div>
+    <div class="alert alert-danger"  id="alertErr">Error al guardar.</div>
+
+    <!-- Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab(0)">Ideas del foro</button>
+      <button class="admin-tab" onclick="switchAdminTab(1)">Ranking</button>
+      <button class="admin-tab" onclick="switchAdminTab(2)">Redes sociales</button>
+      <button class="admin-tab" onclick="switchAdminTab(3)">Configuración</button>
+    </div>
+
+    <!-- TAB 0: Ideas -->
+    <div class="admin-panel active" id="ap0">
+      <p class="section-title-sm">Ideas enviadas por la comunidad</p>
+      <div id="adminIdeasWrap"></div>
+    </div>
+
+    <!-- TAB 1: Ranking -->
+    <div class="admin-panel" id="ap1">
+      <p class="section-title-sm">Editar ranking semanal de creadores</p>
+      <div class="rank-admin-header">
+        <span>#</span><span>Nombre</span><span>Retos</span><span>Plataforma</span><span>Estado</span><span></span>
+      </div>
+      <div id="rankingEditor"></div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="save-btn" onclick="guardarRanking()">Guardar ranking</button>
+        <button class="save-btn ghost" onclick="addRankRow()">+ Agregar fila</button>
+        <button class="save-btn ghost" onclick="resetRanking()">Resetear</button>
+      </div>
+      <p class="hint">Los cambios se reflejan en la página principal al guardar.</p>
+    </div>
+
+    <!-- TAB 2: Redes -->
+    <div class="admin-panel" id="ap2">
+      <p class="section-title-sm">Links de redes sociales</p>
+      <p class="hint" style="margin-bottom:20px">Copia estos links y pégalos directamente en <code>index.html</code> donde dice <code>TU_LINK_TIKTOK</code>, <code>TU_LINK_INSTAGRAM</code> y <code>TU_LINK_WHATSAPP</code>.</p>
+      <div class="links-form">
+        <div class="form-group">
+          <label class="form-label">TikTok URL</label>
+          <div class="link-row">
+            <span class="link-icon">TikTok</span>
+            <input type="url" class="form-input" id="linkTiktok" placeholder="https://tiktok.com/@tuusuario"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instagram URL</label>
+          <div class="link-row">
+            <span class="link-icon">IG</span>
+            <input type="url" class="form-input" id="linkInstagram" placeholder="https://instagram.com/tuusuario"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp comunidad (link de invitación)</label>
+          <div class="link-row">
+            <span class="link-icon">WA</span>
+            <input type="url" class="form-input" id="linkWhatsapp" placeholder="https://chat.whatsapp.com/CODIGO"/>
+          </div>
+        </div>
+        <button class="save-btn" onclick="guardarLinks()" style="align-self:flex-start">Guardar links</button>
+        <p class="hint">Después de guardar, copia manualmente cada URL al HTML de index.html para hacerlos permanentes. Los links guardados aqui son solo referencia.</p>
+      </div>
+    </div>
+
+    <!-- TAB 3: Config -->
+    <div class="admin-panel" id="ap3">
+      <p class="section-title-sm">Configuración del panel</p>
+      <div class="form-group" style="max-width:350px;margin-bottom:20px">
+        <label class="form-label">Cambiar contraseña de admin</label>
+        <input type="password" class="form-input" id="passActual" placeholder="Contraseña actual"/>
+        <input type="password" class="form-input" id="passNueva" placeholder="Nueva contraseña" style="margin-top:8px"/>
+        <input type="password" class="form-input" id="passConfirm" placeholder="Confirmar nueva contraseña" style="margin-top:8px"/>
+        <button class="save-btn" onclick="cambiarPass()" style="margin-top:12px;align-self:flex-start">Cambiar contraseña</button>
+      </div>
+      <div class="form-group" style="max-width:350px">
+        <label class="form-label">Limpiar datos de la app</label>
+        <p class="hint" style="margin-bottom:10px">Elimina ideas del foro, historial de retos y ranking del almacenamiento local del navegador.</p>
+        <button class="save-btn ghost" style="color:var(--red);border-color:rgba(230,57,70,0.3)" onclick="limpiarDatos()">Borrar todos los datos locales</button>
+      </div>
+    </div>
+
+  </div><!-- /admin-content -->
+</div><!-- /admin-wrap -->
+
+<script>
+/* ── CONFIG ── */
+// CAMBIA ESTA CONTRASEÑA antes de publicar
+const PASS_DEFAULT = 'admin123';
+
+function getPass() {
+  return localStorage.getItem('ffAdminPass') || PASS_DEFAULT;
+}
+function isLoggedIn() {
+  return sessionStorage.getItem('ffAdminAuth') === '1';
+}
+
+/* ── LOGIN ── */
+function tryLogin() {
+  const val = document.getElementById('passInput').value;
+  if (val === getPass()) {
+    sessionStorage.setItem('ffAdminAuth','1');
+    showAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('passInput').value = '';
+    document.getElementById('passInput').focus();
+  }
+}
+function logout() {
+  sessionStorage.removeItem('ffAdminAuth');
+  location.reload();
+}
+function showAdmin() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('adminWrap').style.display = 'block';
+  initAdmin();
+}
+if (isLoggedIn()) showAdmin();
+
+/* ── TABS ── */
+function switchAdminTab(idx) {
+  document.querySelectorAll('.admin-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.admin-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+/* ── INIT ── */
+function initAdmin() {
+  renderStats();
+  renderAdminIdeas();
+  renderRankingEditor();
+  loadLinks();
+}
+
+/* ── ESTADÍSTICAS ── */
+function renderStats() {
+  const ideas   = JSON.parse(localStorage.getItem('ffForoIdeas') || '[]');
+  const retos   = JSON.parse(localStorage.getItem('ffRetoHistorial') || '[]');
+  const ranking = JSON.parse(localStorage.getItem('ffRanking') || '[]');
+  document.getElementById('adminStats').innerHTML = `
+    <div class="stat-card"><span class="stat-card-num">${ideas.length}</span><span class="stat-card-label">Ideas recibidas</span></div>
+    <div class="stat-card"><span class="stat-card-num">${retos.length}</span><span class="stat-card-label">Retos generados</span></div>
+    <div class="stat-card"><span class="stat-card-num">${ranking.length || 5}</span><span class="stat-card-label">En ranking</span></div>
+  `;
+}
+
+/* ── IDEAS ── */
+function renderAdminIdeas() {
+  const ideas = JSON.parse(localStorage.getItem('ffForoIdeas') || '[]');
+  const wrap  = document.getElementById('adminIdeasWrap');
+  if (!ideas.length) { wrap.innerHTML = '<p class="empty-msg">No hay ideas aun.</p>'; return; }
+  wrap.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="admin-table">
+      <thead><tr>
+        <th>Usuario</th><th>Tipo</th><th>Idea</th><th>Redes</th><th>Fecha</th><th></th>
+      </tr></thead>
+      <tbody>${ideas.map((id,i) => `
+        <tr>
+          <td style="font-weight:600;color:var(--text-0)">@${escH(id.nombre)}</td>
+          <td>${id.tipo}</td>
+          <td class="idea-text">${escH(id.idea)}</td>
+          <td style="font-size:0.78rem">${id.redes ? escH(id.redes) : '—'}</td>
+          <td style="font-size:0.78rem;white-space:nowrap">${id.fecha}</td>
+          <td><button class="del-btn" onclick="borrarIdea(${i})">Borrar</button></td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+    </div>
+    <p style="font-size:0.78rem;color:var(--text-2);margin-top:12px">${ideas.length} idea(s) en total.</p>`;
+}
+
+function borrarIdea(idx) {
+  if (!confirm('¿Borrar esta idea?')) return;
+  let ideas = JSON.parse(localStorage.getItem('ffForoIdeas') || '[]');
+  ideas.splice(idx, 1);
+  localStorage.setItem('ffForoIdeas', JSON.stringify(ideas));
+  renderAdminIdeas();
+  renderStats();
+  showAlert('ok');
+}
+
+/* ── RANKING EDITOR ── */
+function getRankingLocal() {
+  const def = [
+    {pos:1,nombre:'GamerXXL',retos:12,plataforma:'TikTok',estado:'activo'},
+    {pos:2,nombre:'RetoKing_FF',retos:9,plataforma:'YouTube',estado:'activo'},
+    {pos:3,nombre:'NoobMaster_FF',retos:7,plataforma:'TikTok',estado:'activo'},
+    {pos:4,nombre:'ProSniper99',retos:5,plataforma:'Instagram',estado:'nuevo'},
+    {pos:5,nombre:'TuNombre',retos:3,plataforma:'TikTok',estado:'nuevo'},
+  ];
+  return JSON.parse(localStorage.getItem('ffRanking') || 'null') || def;
+}
+
+function renderRankingEditor() {
+  const data = getRankingLocal();
+  const el = document.getElementById('rankingEditor');
+  el.innerHTML = data.map((r,i) => `
+    <div class="rank-admin-row" id="rrow${i}">
+      <span style="font-family:var(--font-display);font-size:0.9rem;color:var(--text-2)">${i+1}</span>
+      <input class="rank-input" placeholder="Nombre" value="${escH(r.nombre)}" id="rn${i}"/>
+      <input class="rank-input" type="number" placeholder="Retos" value="${r.retos}" id="rr${i}" min="0"/>
+      <input class="rank-input" placeholder="TikTok" value="${escH(r.plataforma)}" id="rp${i}"/>
+      <select class="rank-input" id="re${i}">
+        <option value="activo" ${r.estado==='activo'?'selected':''}>Activo</option>
+        <option value="nuevo"  ${r.estado==='nuevo'?'selected':''}>Nuevo</option>
+      </select>
+      <button class="del-btn" onclick="delRankRow(${i})">X</button>
+    </div>
+  `).join('');
+}
+
+function addRankRow() {
+  const data = getRankingLocal();
+  data.push({pos:data.length+1,nombre:'Nuevo',retos:0,plataforma:'TikTok',estado:'nuevo'});
+  localStorage.setItem('ffRanking', JSON.stringify(data));
+  renderRankingEditor();
+}
+
+function delRankRow(idx) {
+  let data = getRankingLocal();
+  data.splice(idx, 1);
+  localStorage.setItem('ffRanking', JSON.stringify(data));
+  renderRankingEditor();
+}
+
+function guardarRanking() {
+  const data = getRankingLocal();
+  const updated = data.map((r,i) => ({
+    pos: i+1,
+    nombre:    document.getElementById('rn'+i)?.value || r.nombre,
+    retos:     parseInt(document.getElementById('rr'+i)?.value) || 0,
+    plataforma:document.getElementById('rp'+i)?.value || r.plataforma,
+    estado:    document.getElementById('re'+i)?.value || r.estado,
+  }));
+  localStorage.setItem('ffRanking', JSON.stringify(updated));
+  renderStats();
+  showAlert('ok');
+}
+
+function resetRanking() {
+  if (!confirm('¿Resetear ranking a los valores por defecto?')) return;
+  localStorage.removeItem('ffRanking');
+  renderRankingEditor();
+  showAlert('ok');
+}
+
+/* ── LINKS ── */
+function loadLinks() {
+  const links = JSON.parse(localStorage.getItem('ffLinks') || '{}');
+  if (links.tiktok)    document.getElementById('linkTiktok').value    = links.tiktok;
+  if (links.instagram) document.getElementById('linkInstagram').value = links.instagram;
+  if (links.whatsapp)  document.getElementById('linkWhatsapp').value  = links.whatsapp;
+}
+
+function guardarLinks() {
+  const links = {
+    tiktok:    document.getElementById('linkTiktok').value.trim(),
+    instagram: document.getElementById('linkInstagram').value.trim(),
+    whatsapp:  document.getElementById('linkWhatsapp').value.trim(),
+  };
+  localStorage.setItem('ffLinks', JSON.stringify(links));
+  showAlert('ok');
+}
+
+/* ── CAMBIAR PASS ── */
+function cambiarPass() {
+  const actual   = document.getElementById('passActual').value;
+  const nueva    = document.getElementById('passNueva').value;
+  const confirma = document.getElementById('passConfirm').value;
+  if (actual !== getPass()) { showAlert('err'); return; }
+  if (!nueva || nueva !== confirma) { alert('Las contraseñas no coinciden.'); return; }
+  if (nueva.length < 6) { alert('La contraseña debe tener al menos 6 caracteres.'); return; }
+  localStorage.setItem('ffAdminPass', nueva);
+  document.getElementById('passActual').value = '';
+  document.getElementById('passNueva').value  = '';
+  document.getElementById('passConfirm').value= '';
+  showAlert('ok');
+}
+
+/* ── LIMPIAR DATOS ── */
+function limpiarDatos() {
+  if (!confirm('Esto borrará todas las ideas del foro, historial de retos y ranking. ¿Continuar?')) return;
+  localStorage.removeItem('ffForoIdeas');
+  localStorage.removeItem('ffRetoHistorial');
+  localStorage.removeItem('ffRanking');
+  renderAdminIdeas();
+  renderRankingEditor();
+  renderStats();
+  showAlert('ok');
+}
+
+/* ── ALERTAS ── */
+function showAlert(type) {
+  const ok  = document.getElementById('alertOk');
+  const err = document.getElementById('alertErr');
+  [ok,err].forEach(a => { a.style.display='none'; });
+  const el = type === 'ok' ? ok : err;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function escH(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
