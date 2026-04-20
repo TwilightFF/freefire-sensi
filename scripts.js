@@ -89,20 +89,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 /* ════════════════════════════════════════════════
    GENERADOR DE RETOS CON IA
 ════════════════════════════════════════════════ */
-// En scripts.js, al inicio de generarReto():
-const apiKey = localStorage.getItem('ffApiKey');
-if (!apiKey) {
-  const k = prompt('Pega tu clave de API de Anthropic para usar el generador:');
-  if (!k) return;
-  localStorage.setItem('ffApiKey', k);
-}
 
-// Luego en el fetch, agrega el header:
-headers: {
-  'Content-Type': 'application/json',
-  'x-api-key': apiKey,
-  'anthropic-version': '2023-06-01'
-}
 let retoHistorial = JSON.parse(localStorage.getItem('ffRetoHistorial') || '[]');
 
 function actualizarHistorial(texto, emoji) {
@@ -162,8 +149,8 @@ Responde UNICAMENTE con este JSON sin texto extra ni backticks:
 {"categoria":"nombre categoria corta","titulo":"titulo llamativo maximo 55 chars","descripcion":"descripcion del reto en 2 oraciones claras","regla_especial":"un twist o regla extra divertida","emoji":"un emoji","tags":["tag1","tag2","tag3"],"duracion_sugerida":"ej: 3-5 min"}`;
 
   try {
-const res = await fetch('https://ffproxy.justfernando123.workers.dev/', {
-   method: 'POST',
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
