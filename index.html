@@ -9,6 +9,124 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── NAV RULETA ── */
+    .nav-link-ruleta{color:var(--accent)!important;font-weight:700!important;}
+    .btn-ruleta{border-color:var(--accent)!important;color:var(--accent)!important;}
+    .btn-ruleta:hover{background:var(--accent)!important;color:#000!important;}
+
+    /* ── SECTION RULETA ── */
+    .section-ruleta{background:var(--bg-1);}
+
+    /* TABS */
+    .rul-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .rul-tab{padding:10px 18px;font-family:var(--font-head);font-size:0.88rem;font-weight:700;color:var(--text-2);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all .2s;}
+    .rul-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+    .rul-tab:hover{color:var(--text-0);}
+
+    /* ── RULETA CANVAS ── */
+    .ruleta-ff-wrap{display:grid;grid-template-columns:340px 1fr;gap:32px;align-items:start;}
+    @media(max-width:768px){.ruleta-ff-wrap{grid-template-columns:1fr;}}
+    .ruleta-ff-left{display:flex;flex-direction:column;align-items:center;gap:16px;}
+    .ruleta-ff-outer{position:relative;width:320px;height:320px;}
+    #ruletaCanvas{border-radius:50%;display:block;}
+    .ruleta-ff-needle{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:1.8rem;color:var(--accent);text-shadow:0 0 10px var(--accent-glow);z-index:5;line-height:1;}
+    .rul-spin-btn{padding:14px 36px;background:var(--accent);color:#000;border:none;border-radius:10px;font-family:var(--font-display);font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .2s;}
+    .rul-spin-btn:hover{background:#fdb94a;transform:scale(1.04);}
+    .rul-spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .rul-spin-sm{padding:10px 20px;font-size:0.88rem;}
+
+    /* Resultado ruleta */
+    .rul-result-box{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:24px;min-height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:border-color .3s;}
+    .rul-result-box.has-result{border-color:var(--accent);}
+    .rul-result-empty{text-align:center;color:var(--text-2);}
+    .rul-result-empty p{font-size:.88rem;margin-top:8px;}
+    .rul-result-char{width:100%;}
+    .rul-char-name{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--text-0);margin-bottom:6px;}
+    .rul-char-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;margin-bottom:10px;}
+    .rul-char-skill{font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;}
+    .rul-char-desc{font-size:.83rem;color:var(--text-2);line-height:1.5;}
+    .rul-history-title{font-family:var(--font-head);font-size:.72rem;font-weight:700;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+    .rul-history{display:flex;flex-direction:column;gap:6px;}
+    .rul-hist-item{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px;font-size:.82rem;}
+    .rul-hist-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+    .rul-hist-name{font-weight:700;color:var(--text-0);}
+    .rul-hist-type{font-size:.7rem;color:var(--text-2);}
+
+    /* ── COMBO ── */
+    .combo-regla-box{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:var(--radius);padding:12px 16px;font-size:.85rem;color:var(--text-2);line-height:1.6;margin-bottom:20px;}
+    .combo-regla-box strong{color:var(--text-0);}
+    .combo-regla-box em{color:var(--accent);font-style:normal;}
+    .combo-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;align-items:center;}
+    .combo-result-wrap{margin-bottom:24px;}
+    .combo-placeholder{text-align:center;padding:40px;background:var(--card-bg);border:1px dashed var(--border);border-radius:var(--radius-lg);color:var(--text-2);}
+    .combo-placeholder p{margin-top:8px;font-size:.88rem;}
+    .combo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+    .combo-slot{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:18px;position:relative;transition:border-color .3s;}
+    .combo-slot.slot-main{border-color:var(--accent);}
+    .combo-slot-label{font-family:var(--font-display);font-size:.62rem;color:var(--text-2);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+    .combo-slot-label.main-lbl{color:var(--accent);}
+    .combo-char-name{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--text-0);margin-bottom:4px;}
+    .combo-skill-name{font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:4px;}
+    .combo-skill-desc{font-size:.75rem;color:var(--text-2);line-height:1.4;}
+    .combo-type-badge{position:absolute;top:12px;right:12px;}
+    .combo-bottom{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .combo-sinergia{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;flex:1;min-width:200px;}
+    .combo-sinergia-title{font-family:var(--font-head);font-size:.72rem;font-weight:700;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+    .combo-sinergia-text{font-size:.82rem;color:var(--text-1);line-height:1.5;}
+    .combo-historial{}
+    .combo-hist-row{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.82rem;color:var(--text-2);display:flex;align-items:center;gap:8px;}
+
+    /* ── RANDOM ── */
+    .random-section{}
+    .random-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;align-items:center;}
+    .random-result-area{}
+    .random-card-big{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:32px;text-align:center;min-height:220px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:border-color .3s;}
+    .random-card-big.has-char{border-color:var(--accent);text-align:left;}
+    .random-placeholder{text-align:center;color:var(--text-2);}
+    .random-placeholder p{margin-top:8px;font-size:.9rem;}
+    .rand-char-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px;}
+    .rand-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#e63946);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;}
+    .rand-char-info{}
+    .rand-char-name{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text-0);margin-bottom:4px;}
+    .rand-char-type{font-size:.82rem;color:var(--text-2);}
+    .rand-skill-block{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
+    .rand-skill-name{font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:4px;}
+    .rand-skill-desc{font-size:.85rem;color:var(--text-1);line-height:1.5;}
+    .rand-reto-hint{font-size:.82rem;color:var(--text-2);font-style:italic;}
+    .random-streak{}
+    .streak-label{font-family:var(--font-head);font-size:.72rem;font-weight:700;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px;}
+    .streak-list{display:flex;gap:8px;flex-wrap:wrap;}
+    .streak-chip{background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:.75rem;color:var(--text-2);}
+    .streak-chip.activa{border-color:rgba(230,57,70,.4);color:#e63946;}
+    .streak-chip.pasiva{border-color:rgba(34,197,94,.4);color:#22c55e;}
+
+    /* ── TODOS ── */
+    .todos-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+    .todos-search{flex:1;min-width:180px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:10px 14px;font-family:var(--font-body);font-size:.9rem;color:var(--text-0);outline:none;transition:border-color .2s;}
+    .todos-search:focus{border-color:var(--accent);}
+    .todos-pills{display:flex;gap:6px;}
+    .todos-pill{padding:7px 16px;border-radius:999px;border:1px solid var(--border);font-family:var(--font-head);font-size:.82rem;font-weight:700;color:var(--text-2);background:transparent;cursor:pointer;transition:all .2s;}
+    .todos-pill.active{background:var(--accent);border-color:var(--accent);color:#000;}
+    .todos-stats{font-size:.8rem;color:var(--text-2);margin-bottom:14px;}
+    .todos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+    .todos-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:all .2s;}
+    .todos-card:hover{border-color:var(--border-bright);transform:translateY(-2px);}
+    .todos-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+    .todos-card-name{font-family:var(--font-head);font-size:.95rem;font-weight:700;color:var(--text-0);}
+    .todos-card-skill{font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:4px;}
+    .todos-card-desc{font-size:.75rem;color:var(--text-2);line-height:1.4;}
+    .todos-card-cat{font-size:.68rem;color:var(--text-2);margin-top:6px;}
+
+    /* Badge tipos */
+    .badge-activa{background:rgba(230,57,70,.15);color:#e63946;border:1px solid rgba(230,57,70,.3);padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:700;}
+    .badge-pasiva{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:700;}
+    .badge-ninguna{background:var(--bg-3);color:var(--text-2);border:1px solid var(--border);padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:700;}
+
+    /* anim entrada resultado */
+    @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .pop-in{animation:popIn .35s cubic-bezier(.17,.67,.35,1.3) both;}
+  </style>
 </head>
 <body>
 
@@ -22,11 +140,11 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="#sensibilidades">Sensibilidades</a></li>
         <li><a href="#retos-ia">Retos IA</a></li>
+        <li><a href="#ruleta-personajes" class="nav-link-ruleta">🎰 Ruleta</a></li>
         <li><a href="#tips">Tips Pro</a></li>
         <li><a href="#descargas">Descargas</a></li>
         <li><a href="#comunidad">Comunidad</a></li>
         <li><a href="#foro">Ideas</a></li>
-        
       </ul>
       <button class="hamburger" id="hamburger" aria-label="Menú">
         <span></span><span></span><span></span>
@@ -57,6 +175,7 @@
       </p>
       <div class="hero-btns">
         <a href="#sensibilidades" class="btn btn-primary">Ver sensibilidades</a>
+        <a href="#ruleta-personajes" class="btn btn-ghost btn-ruleta">🎰 Ruleta de Personajes</a>
         <a href="#descargas" class="btn btn-ghost">Descargar configs</a>
       </div>
     </div>
@@ -565,6 +684,135 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════════════
+       RULETA DE PERSONAJES FREE FIRE
+  ══════════════════════════════════════════════ -->
+  <section id="ruleta-personajes" class="section section-ruleta">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">⚡ Generador</span>
+        <h2 class="section-title">Ruleta de <span class="accent">Personajes</span></h2>
+        <p class="section-desc">Gira la ruleta, genera combos aleatorios válidos y crea retos épicos para tus videos.</p>
+      </div>
+
+      <!-- TABS MODOS -->
+      <div class="rul-tabs">
+        <button class="rul-tab active" data-tab="0" onclick="switchRulTab(0)">🎰 Ruleta</button>
+        <button class="rul-tab" data-tab="1" onclick="switchRulTab(1)">⚡ Combo Aleatorio</button>
+        <button class="rul-tab" data-tab="2" onclick="switchRulTab(2)">🎯 Personaje Random</button>
+        <button class="rul-tab" data-tab="3" onclick="switchRulTab(3)">📋 Todos los Personajes</button>
+      </div>
+
+      <!-- ── TAB 0: RULETA VISUAL ── -->
+      <div class="rul-panel" id="rp0">
+        <div class="ruleta-ff-wrap">
+          <div class="ruleta-ff-left">
+            <div class="ruleta-ff-outer" id="ruletaFFOuter">
+              <canvas id="ruletaCanvas" width="320" height="320"></canvas>
+              <div class="ruleta-ff-needle">▼</div>
+            </div>
+            <button class="rul-spin-btn" id="ruletaSpinBtn" onclick="girarRuleta()">
+              <span id="ruletaSpinTxt">¡GIRAR!</span>
+            </button>
+          </div>
+          <div class="ruleta-ff-right">
+            <div class="rul-result-box" id="ruletaResultBox">
+              <div class="rul-result-empty">
+                <span style="font-size:2.5rem">🎰</span>
+                <p>¡Gira la ruleta para obtener tu personaje!</p>
+              </div>
+            </div>
+            <div class="rul-history-title">Últimas 5 tiradas</div>
+            <div class="rul-history" id="ruletaHistory"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 1: COMBO ALEATORIO ── -->
+      <div class="rul-panel" id="rp1" style="display:none">
+        <div class="combo-section">
+          <p class="combo-regla-box">
+            <strong>Regla del juego:</strong> Un combo válido de 4 habilidades puede tener máximo <em>1 habilidad activa</em> en el slot de personaje principal. Los otros 3 slots son habilidades de otros personajes. No pueden existir 2 pasivas del mismo personaje. El generador respeta estas reglas automáticamente.
+          </p>
+
+          <div class="combo-filters">
+            <select class="reto-select" id="comboEstilo">
+              <option value="cualquiera">🎲 Cualquier estilo</option>
+              <option value="rush">🔥 Rush / Agresivo</option>
+              <option value="defensa">🛡️ Defensa / Supervivencia</option>
+              <option value="soporte">💚 Soporte</option>
+              <option value="sniper">🎯 Sniper / Distancia</option>
+              <option value="sigilo">👁️ Sigilo</option>
+            </select>
+            <button class="rul-spin-btn rul-spin-sm" onclick="generarCombo()">⚡ Generar Combo</button>
+          </div>
+
+          <div id="comboResult" class="combo-result-wrap">
+            <div class="combo-placeholder">
+              <span style="font-size:2rem">⚡</span>
+              <p>Pulsa el botón para generar un combo válido</p>
+            </div>
+          </div>
+
+          <div class="combo-historial" id="comboHistorial" style="display:none">
+            <h4 style="font-family:var(--font-head);font-size:0.82rem;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Combos generados</h4>
+            <div id="comboHistList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 2: PERSONAJE RANDOM ── -->
+      <div class="rul-panel" id="rp2" style="display:none">
+        <div class="random-section">
+          <div class="random-filters">
+            <select class="reto-select" id="randomTipoFiltro">
+              <option value="todos">🎲 Todos los personajes</option>
+              <option value="A">⚡ Solo activos</option>
+              <option value="P">🟢 Solo pasivos</option>
+              <option value="Ataque">🔥 Categoría: Ataque</option>
+              <option value="Soporte">💚 Categoría: Soporte</option>
+              <option value="Defensa">🛡️ Categoría: Defensa</option>
+              <option value="Movimiento">💨 Categoría: Movimiento</option>
+              <option value="Sigilo">👁️ Categoría: Sigilo</option>
+              <option value="Control">🌀 Categoría: Control</option>
+            </select>
+            <button class="rul-spin-btn rul-spin-sm" onclick="randomPersonaje()">🎲 Personaje Random</button>
+          </div>
+
+          <div class="random-result-area">
+            <div class="random-card-big" id="randomCardBig">
+              <div class="random-placeholder">
+                <span style="font-size:3rem">🎲</span>
+                <p>Pulsa el botón para obtener un personaje aleatorio</p>
+              </div>
+            </div>
+            <div class="random-streak" id="randomStreak" style="display:none">
+              <span class="streak-label">Personajes sorteados esta sesión:</span>
+              <div class="streak-list" id="streakList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 3: TODOS LOS PERSONAJES ── -->
+      <div class="rul-panel" id="rp3" style="display:none">
+        <div class="todos-section">
+          <div class="todos-controls">
+            <input type="search" class="todos-search" id="todosSearch" placeholder="Buscar personaje o habilidad..." oninput="filtrarTodos()">
+            <div class="todos-pills">
+              <button class="todos-pill active" data-f="todos" onclick="setTodosFiltro('todos',this)">Todos</button>
+              <button class="todos-pill" data-f="A" onclick="setTodosFiltro('A',this)">Activa</button>
+              <button class="todos-pill" data-f="P" onclick="setTodosFiltro('P',this)">Pasiva</button>
+            </div>
+          </div>
+          <div class="todos-stats" id="todosStats"></div>
+          <div class="todos-grid" id="todosGrid"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ── SECCIÓN: RETOS IA ── -->
   <section id="retos-ia" class="section">
     <div class="container">
@@ -833,5 +1081,405 @@
   <div class="toast toast-green" id="toastForo">📨 ¡Idea enviada! Gracias.</div>
 
   <script src="scripts.js"></script>
-</body>
-</html>
+  <script>
+  /* ═══════════════════════════════════════════════════════
+     RULETA DE PERSONAJES FREE FIRE — lógica completa
+     Regla: combo de 4 slots → max 1 activa (personaje principal)
+             los otros 3 slots solo pueden ser habilidades PASIVAS
+             y no puede repetirse el mismo personaje
+  ═══════════════════════════════════════════════════════ */
+
+  const FF_CHARS = [
+    {n:"A124",      t:"A", cat:"Soporte",        skill:"Emoción de batalla",        desc:"Convierte instantáneamente EP en HP en combate."},
+    {n:"Alok",      t:"A", cat:"Soporte",         skill:"Ritmo brutal",              desc:"Aura 5m que restaura 3HP/s y da +10% velocidad de movimiento."},
+    {n:"Álvaro",    t:"P", cat:"Ataque",          skill:"Arte demoledor",            desc:"Aumenta el daño y radio de armas explosivas."},
+    {n:"Andrew",    t:"P", cat:"Defensa",         skill:"Especialista en armadura",  desc:"Reduce la pérdida de durabilidad del chaleco."},
+    {n:"Antonio",   t:"P", cat:"Defensa",         skill:"Espíritu mafioso",          desc:"Inicia cada partida con 35 HP extra."},
+    {n:"Caroline",  t:"P", cat:"Movimiento",      skill:"Agilidad",                  desc:"Velocidad de movimiento al sostener escopeta."},
+    {n:"Chrono",    t:"A", cat:"Defensa",         skill:"Campo de fuerza",           desc:"Campo que bloquea 600 daño + velocidad +15%. 4s/50s cooldown."},
+    {n:"Clu",       t:"A", cat:"Reconocimiento",  skill:"Rastreo de pasos",          desc:"Revela enemigos que no están agachados en área cercana."},
+    {n:"Dasha",     t:"P", cat:"Defensa",         skill:"Modo fiesta",               desc:"Reduce daño por caída 30%, retroceso acumulado 6%."},
+    {n:"D-bee",     t:"P", cat:"Ataque",          skill:"Balas con ritmo",           desc:"Disparando en movimiento: velocidad +5% y precisión +10%."},
+    {n:"Dimitri",   t:"A", cat:"Soporte",         skill:"Latido curativo",           desc:"Zona de curación 3.5m, 3PV/s. Puede levantarse solo cuando cae."},
+    {n:"Ford",      t:"P", cat:"Defensa",         skill:"Voluntad de hierro",        desc:"Reduce daño recibido fuera de la zona segura."},
+    {n:"Hayato",    t:"P", cat:"Ataque",          skill:"Bushido",                   desc:"Penetración de armadura aumenta conforme baja la vida."},
+    {n:"Homer",     t:"A", cat:"Control",         skill:"Sentidos de choque",        desc:"Lanza dron al enemigo más cercano: ralentiza y daña."},
+    {n:"Ignis",     t:"A", cat:"Control",         skill:"Muro ígneo",                desc:"Muro de llamas 12m/10s. 30 daño instantáneo +10/s. Destruye gloo."},
+    {n:"Iris",      t:"A", cat:"Ataque",          skill:"Rompehielos",               desc:"Marca y dispara a enemigos a través de paredes gloo."},
+    {n:"Jai",       t:"P", cat:"Ataque",          skill:"Recarga furiosa",           desc:"Al derribar enemigo, recarga automática de AR/pistola/SMG."},
+    {n:"J.Biebs",   t:"A", cat:"Soporte",         skill:"Voz centinela",             desc:"Reduce daño a aliados cercanos usando su EP propio."},
+    {n:"Joseph",    t:"P", cat:"Movimiento",      skill:"Movimiento loco",           desc:"Al recibir daño, velocidad +10% durante 1 segundo."},
+    {n:"Jota",      t:"P", cat:"Ataque",          skill:"Ataques sostenidos",        desc:"Restaura HP al eliminar enemigos con SMG o escopeta."},
+    {n:"K",         t:"A", cat:"Soporte",         skill:"Maestro de todo",           desc:"Jiu-Jitsu: aliados con 500% conversión EP/HP. Psico: +2EP/2s."},
+    {n:"Kairos",    t:"P", cat:"Ataque",          skill:"Hambre de energía",         desc:"Absorbe energía al eliminar enemigos, potenciando habilidades."},
+    {n:"Kapella",   t:"P", cat:"Soporte",         skill:"Canción curativa",          desc:"Aumenta efecto de curación. Reduce pérdida de HP de aliados caídos."},
+    {n:"Kassie",    t:"A", cat:"Control",         skill:"Control de zona",           desc:"Crea zonas de control que afectan múltiples enemigos."},
+    {n:"Kelly",     t:"P", cat:"Movimiento",      skill:"Dash",                      desc:"Velocidad de carrera permanente +6%."},
+    {n:"Kenta",     t:"A", cat:"Defensa",         skill:"Ira del espadachín",        desc:"Escudo frontal que bloquea daño entrante. Se reinicia al atacar."},
+    {n:"Kla",       t:"P", cat:"Ataque",          skill:"Muay Thai",                 desc:"Daño de puñetazos aumentado un 400%."},
+    {n:"Laura",     t:"P", cat:"Ataque",          skill:"Francotirador experto",     desc:"Precisión +35% al apuntar con mirilla (ADS)."},
+    {n:"Leon",      t:"P", cat:"Soporte",         skill:"Zumbido del velocista",     desc:"Recupera HP durante y después del combate activo."},
+    {n:"Lila",      t:"P", cat:"Control",         skill:"Con-GEL-ante Blow",         desc:"Efecto de ralentización pasiva sobre enemigos golpeados."},
+    {n:"Luna",      t:"P", cat:"Movimiento",      skill:"Fight-or-Flight",           desc:"Cadencia de disparo +8%. Impactos se convierten en velocidad."},
+    {n:"Luqueta",   t:"P", cat:"Defensa",         skill:"Hat trick",                 desc:"Cada eliminación aumenta el HP máximo (hasta +35 HP)."},
+    {n:"Maro",      t:"P", cat:"Ataque",          skill:"Sabueso congelado",         desc:"Daño aumenta con la distancia. Marca a enemigos alcanzados."},
+    {n:"Maxim",     t:"P", cat:"Soporte",         skill:"Glotonería",                desc:"Reduce tiempo de uso de hongos y botiquines."},
+    {n:"Miguel",    t:"P", cat:"Soporte",         skill:"Destructor furioso",        desc:"Gana EP por cada eliminación realizada."},
+    {n:"Misha",     t:"P", cat:"Movimiento",      skill:"Alma mecánica",             desc:"Velocidad al conducir +daño reducido en vehículos."},
+    {n:"Moco",      t:"P", cat:"Reconocimiento",  skill:"Ojo del hacker",            desc:"Marca a enemigos disparados 5s. Visible para aliados en mapa."},
+    {n:"Morse",     t:"A", cat:"Sigilo",          skill:"Bytes ocultos",             desc:"Sigilo: invisible a 16m, indetectable, +20% velocidad. 15s/45s."},
+    {n:"Nairi",     t:"P", cat:"Defensa",         skill:"Hielo de hierro",           desc:"Paredes gloo propias regeneran durabilidad con el tiempo."},
+    {n:"Nero",      t:"A", cat:"Control",         skill:"Mente congelada",           desc:"Zona que bloquea gloo, inflige daño continuo y ralentiza."},
+    {n:"Nikita",    t:"P", cat:"Ataque",          skill:"Experta en armas",          desc:"Velocidad de recarga de SMG aumentada."},
+    {n:"Notora",    t:"P", cat:"Soporte",         skill:"Bendición del piloto",      desc:"Restaura HP a compañeros mientras conduce un vehículo."},
+    {n:"Olivia",    t:"P", cat:"Soporte",         skill:"Toque sanador",             desc:"Aliados revividos regresan con HP extra."},
+    {n:"Orion",     t:"A", cat:"Defensa",         skill:"Aplastamiento carmesí",     desc:"Inmune al daño 3s mientras absorbe HP de enemigos cercanos."},
+    {n:"Oscar",     t:"A", cat:"Movimiento",      skill:"Dash valiente",             desc:"Sprint hacia adelante con retroceso a enemigos en el camino."},
+    {n:"Otho",      t:"A", cat:"Reconocimiento",  skill:"Niebla de memoria",         desc:"Al eliminar enemigo, revela ubicación de todos los cercanos."},
+    {n:"Paloma",    t:"P", cat:"Utilidad",        skill:"Traficante de armas",       desc:"Munición AR sin ocupar espacio en el inventario."},
+    {n:"Rafael",    t:"P", cat:"Sigilo",          skill:"Silencio de muerte",        desc:"Disparos no aparecen en minimapa. Apunta más rápido post-sprint."},
+    {n:"Rin",       t:"P", cat:"Ataque",          skill:"Kunais ninja",              desc:"Lanza kunais automáticamente al detectar enemigos cercanos."},
+    {n:"Ryden",     t:"A", cat:"Control",         skill:"Trampa arácnida",           desc:"Araña explosiva 30s: atrapa enemigo en 5m, ralentiza 80%/10HP/s."},
+    {n:"Santino",   t:"A", cat:"Engaño",          skill:"Divisor de formas",         desc:"Genera maniquí que avanza y permite teletransportarse a su lugar."},
+    {n:"Shani",     t:"P", cat:"Defensa",         skill:"Reciclaje de equipo",       desc:"Cada eliminación restaura la durabilidad de la armadura."},
+    {n:"Shirou",    t:"P", cat:"Reconocimiento",  skill:"Daño desde las sombras",    desc:"Marca a enemigos que le atacan desde <100m (solo visible para él)."},
+    {n:"Skyler",    t:"A", cat:"Control",         skill:"Ritmo de marea",            desc:"Onda sónica daña hasta 5 gloo en 100m. Desplegar gloo da +9HP."},
+    {n:"Sonia",     t:"A", cat:"Defensa",         skill:"Protección nano",           desc:"Al recibir daño mortal: invulnerable 0.5s + escudo. Mata → recupera HP."},
+    {n:"Steffie",   t:"P", cat:"Defensa",         skill:"Grafiti de refugio",        desc:"Grafiti que reduce daño de explosivos y balas para aliados."},
+    {n:"Suzy",      t:"P", cat:"Utilidad",        skill:"Marca de dinero",           desc:"Eliminar enemigos marcados da 200 monedas en partida."},
+    {n:"Tatsuya",   t:"A", cat:"Movimiento",      skill:"Rebelión Rush",             desc:"Propulsión veloz hacia adelante. Meta competitivo 2026."},
+    {n:"Thiva",     t:"P", cat:"Soporte",         skill:"Vibras vitales",            desc:"Velocidad de rescate aumentada + recupera vida al completarlo."},
+    {n:"Wolfrahh",  t:"P", cat:"Defensa",         skill:"Fama",                      desc:"Reduce daño recibido en cabeza. Aumenta daño a extremidades enemigas."},
+    {n:"Wukong",    t:"A", cat:"Sigilo",          skill:"Camuflaje",                 desc:"Se transforma en arbusto 10s. Si elimina, cooldown se reinicia."},
+    {n:"Xayne",     t:"A", cat:"Ataque",          skill:"Encuentro extremo",         desc:"+80HP temporal de escudo + más daño a gloo/escudos. 15s/100s cd."},
+  ];
+
+  const ACTIVOS = FF_CHARS.filter(c=>c.t==='A');
+  const PASIVOS = FF_CHARS.filter(c=>c.t==='P');
+
+  /* ──── UTILIDADES ──── */
+  function randFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function shuffle(a){ return [...a].sort(()=>Math.random()-.5); }
+  function badgeHtml(t){
+    if(t==='A') return '<span class="badge-activa">Activa</span>';
+    if(t==='P') return '<span class="badge-pasiva">Pasiva</span>';
+    return '<span class="badge-ninguna">Ninguna</span>';
+  }
+  function avatarLetter(name){ return name.charAt(0).toUpperCase(); }
+  function catColor(cat){
+    const m={Ataque:'#e63946',Soporte:'#22c55e',Defensa:'#00d4ff',Movimiento:'#a855f7',
+             Sigilo:'#888',Control:'#f5a623',Reconocimiento:'#69C9D0',Utilidad:'#fdb94a',Engaño:'#ED93B1'};
+    return m[cat]||'var(--text-2)';
+  }
+
+  /* ──── TABS ──── */
+  function switchRulTab(idx){
+    document.querySelectorAll('.rul-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+    [0,1,2,3].forEach(i=>{ document.getElementById('rp'+i).style.display = i===idx?'block':'none'; });
+    if(idx===3) renderTodos();
+  }
+
+  /* ══════════════════════════════
+     TAB 0 — RULETA CANVAS
+  ══════════════════════════════ */
+  const RUL_CHARS = FF_CHARS.slice();
+  const RUL_COLORS = ['#1c2535','#141922','#1a1220','#101820','#1c1a10','#121c1a','#1a1020','#181420','#0f1720','#1a0f12'];
+  let ruletaAngle=0, ruletaSpinning=false, ruletaHistory=[];
+
+  function drawRuleta(angle){
+    const canvas=document.getElementById('ruletaCanvas');
+    if(!canvas) return;
+    const ctx=canvas.getContext('2d');
+    const W=320,H=320,cx=160,cy=160,r=155;
+    ctx.clearRect(0,0,W,H);
+    const sliceCount=Math.min(RUL_CHARS.length,20);
+    const chars=RUL_CHARS.slice(0,sliceCount);
+    const arc=(2*Math.PI)/sliceCount;
+    chars.forEach((c,i)=>{
+      const start=angle+i*arc, end=start+arc;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,start,end);
+      ctx.closePath();
+      ctx.fillStyle=RUL_COLORS[i%RUL_COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle='rgba(245,166,35,0.3)';
+      ctx.lineWidth=1;
+      ctx.stroke();
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.rotate(start+arc/2);
+      ctx.textAlign='right';
+      ctx.fillStyle=i%2===0?'var(--accent, #f5a623)':'#b8c4d8';
+      ctx.font='bold 11px Orbitron, monospace';
+      ctx.fillText(c.n, r-8, 4);
+      ctx.restore();
+    });
+    ctx.beginPath();
+    ctx.arc(cx,cy,22,0,Math.PI*2);
+    ctx.fillStyle='#080b10';
+    ctx.fill();
+    ctx.strokeStyle='var(--accent, #f5a623)';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    ctx.fillStyle='#f5a623';
+    ctx.font='bold 10px Orbitron';
+    ctx.textAlign='center';
+    ctx.fillText('FF',cx,cy+4);
+  }
+  drawRuleta(0);
+
+  function girarRuleta(){
+    if(ruletaSpinning) return;
+    ruletaSpinning=true;
+    const btn=document.getElementById('ruletaSpinBtn');
+    const txt=document.getElementById('ruletaSpinTxt');
+    btn.disabled=true;
+    txt.textContent='Girando...';
+    const sliceCount=Math.min(RUL_CHARS.length,20);
+    const extraSpins=5+Math.random()*8;
+    const targetAngle=ruletaAngle+(extraSpins*2*Math.PI);
+    const duration=3500;
+    const start=performance.now();
+    const startAngle=ruletaAngle;
+    function animate(now){
+      const elapsed=now-start;
+      const progress=Math.min(elapsed/duration,1);
+      const ease=1-Math.pow(1-progress,4);
+      ruletaAngle=startAngle+(targetAngle-startAngle)*ease;
+      drawRuleta(ruletaAngle);
+      if(progress<1){ requestAnimationFrame(animate); }
+      else{
+        ruletaSpinning=false;
+        btn.disabled=false;
+        txt.textContent='¡GIRAR!';
+        const arc=(2*Math.PI)/sliceCount;
+        const norm=(((-ruletaAngle+Math.PI/2)%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+        const idx=Math.floor(norm/arc)%sliceCount;
+        const char=RUL_CHARS[idx];
+        mostrarResultadoRuleta(char);
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function mostrarResultadoRuleta(char){
+    const box=document.getElementById('ruletaResultBox');
+    box.classList.add('has-result');
+    box.innerHTML=`<div class="rul-result-char pop-in">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#e63946);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:#000;flex-shrink:0">${avatarLetter(char.n)}</div>
+        <div>
+          <div class="rul-char-name">${char.n}</div>
+          ${badgeHtml(char.t)}
+          <span style="font-size:.7rem;color:${catColor(char.cat)};margin-left:6px">${char.cat}</span>
+        </div>
+      </div>
+      <div class="rul-char-skill">${char.skill}</div>
+      <div class="rul-char-desc">${char.desc}</div>
+      <div style="margin-top:14px;padding:10px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:8px;font-size:.78rem;color:var(--text-2)">
+        💡 <strong style="color:var(--text-0)">Idea de reto:</strong> Haz una partida completa usando solo a <strong style="color:var(--accent)">${char.n}</strong> como personaje principal con su habilidad "${char.skill}". Gana con esa restricción.
+      </div>
+    </div>`;
+    ruletaHistory.unshift(char);
+    if(ruletaHistory.length>5) ruletaHistory.pop();
+    const hist=document.getElementById('ruletaHistory');
+    hist.innerHTML=ruletaHistory.map(c=>`
+      <div class="rul-hist-item">
+        <div class="rul-hist-dot"></div>
+        <span class="rul-hist-name">${c.n}</span>
+        <span class="rul-hist-type">${c.t==='A'?'Activa':'Pasiva'} · ${c.cat}</span>
+      </div>`).join('');
+  }
+
+  /* ══════════════════════════════
+     TAB 1 — COMBO ALEATORIO
+     REGLA: slot0 = 1 activa (personaje principal con su activa)
+            slots 1,2,3 = 3 pasivas de 3 personajes DIFERENTES
+            No puede repetirse ningún personaje en el combo
+  ══════════════════════════════ */
+  const SINERGIAS={
+    rush:    "Combo agresivo de alta cadencia. Ideal para rush en edificios y zonas cerradas.",
+    defensa: "Combo defensivo con alta supervivencia. Aguanta más daño y se cura constantemente.",
+    soporte: "Combo de soporte para escuadra. Maximiza la curación y los efectos aliados.",
+    sniper:  "Combo de distancia con máxima precisión. Ideal para posiciones elevadas.",
+    sigilo:  "Combo de sigilo e información. Se mueve sin ser detectado y marca al enemigo.",
+  };
+
+  const ESTILO_PASIVOS={
+    rush:    ['Jota','Jai','D-bee','Luna','Joseph','Kelly','Kairos'],
+    defensa: ['Andrew','Dasha','Nairi','Wolfrahh','Shani','Luqueta','Steffie'],
+    soporte: ['Kapella','Olivia','Maxim','Miguel','Thiva','Notora','Leon'],
+    sniper:  ['Laura','Maro','Rafael','Hayato','Moco','Rin'],
+    sigilo:  ['Rafael','Moco','Shirou','Paloma','Wolfrahh','Hayato'],
+  };
+
+  let comboHistory=[];
+
+  function generarCombo(){
+    const estilo=document.getElementById('comboEstilo').value;
+    let mainChar, pasivos3;
+
+    // Slot 0: personaje principal con habilidad ACTIVA
+    mainChar=randFrom(ACTIVOS);
+
+    // Slots 1-3: 3 habilidades PASIVAS de personajes distintos entre sí y distintos al principal
+    let pool;
+    if(estilo!=='cualquiera' && ESTILO_PASIVOS[estilo]){
+      const preferidos=PASIVOS.filter(c=>ESTILO_PASIVOS[estilo].includes(c.n));
+      pool = preferidos.length>=3 ? preferidos : PASIVOS;
+    } else {
+      pool = PASIVOS;
+    }
+    const poolSinMain = pool.filter(c=>c.n!==mainChar.n);
+    const shuffled=shuffle(poolSinMain);
+    pasivos3=shuffled.slice(0,3);
+
+    // Renderizar
+    const sinergia=estilo!=='cualquiera'?(SINERGIAS[estilo]||SINERGIAS.rush):randFrom(Object.values(SINERGIAS));
+    const slots=[
+      {char:mainChar, label:'Personaje principal', isMain:true},
+      {char:pasivos3[0], label:'Habilidad 2', isMain:false},
+      {char:pasivos3[1], label:'Habilidad 3', isMain:false},
+      {char:pasivos3[2], label:'Habilidad 4', isMain:false},
+    ];
+
+    document.getElementById('comboResult').innerHTML=`
+      <div class="combo-grid pop-in">
+        ${slots.map(s=>`
+          <div class="combo-slot ${s.isMain?'slot-main':''}">
+            <div class="combo-slot-label ${s.isMain?'main-lbl':''}">${s.label}</div>
+            <div class="combo-type-badge">${badgeHtml(s.char.t)}</div>
+            <div class="combo-char-name">${s.char.n}</div>
+            <div class="combo-skill-name">${s.char.skill}</div>
+            <div class="combo-skill-desc">${s.char.desc}</div>
+          </div>`).join('')}
+      </div>
+      <div class="combo-bottom">
+        <div class="combo-sinergia">
+          <div class="combo-sinergia-title">Sinergia del combo</div>
+          <div class="combo-sinergia-text">${sinergia}</div>
+        </div>
+        <button class="reto-btn rul-spin-sm" onclick="copiarCombo('${slots.map(s=>s.char.n+'('+s.char.skill+')').join(' | ')}')">⧉ Copiar combo</button>
+      </div>`;
+
+    comboHistory.unshift(slots.map(s=>s.char.n).join(' + '));
+    if(comboHistory.length>5) comboHistory.pop();
+    const hist=document.getElementById('comboHistorial');
+    hist.style.display='block';
+    document.getElementById('comboHistList').innerHTML=comboHistory.map(c=>`
+      <div class="combo-hist-row">⚡ ${c}</div>`).join('');
+  }
+
+  function copiarCombo(txt){
+    const full='🎮 Combo Free Fire:\n'+txt.replace(/\|/g,'\n•')+'\n\nGenerado en FFSensiPro';
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(full);}
+    else{const e=document.createElement('textarea');e.value=full;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);}
+    const t=document.getElementById('toast');
+    t.textContent='⧉ Combo copiado';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.textContent='✅ ¡Copiado!';},2500);
+  }
+
+  /* ══════════════════════════════
+     TAB 2 — PERSONAJE RANDOM
+  ══════════════════════════════ */
+  let randStreak=[];
+
+  function randomPersonaje(){
+    const filtro=document.getElementById('randomTipoFiltro').value;
+    let pool=FF_CHARS;
+    if(filtro==='A') pool=ACTIVOS;
+    else if(filtro==='P') pool=PASIVOS;
+    else if(['Ataque','Soporte','Defensa','Movimiento','Sigilo','Control','Reconocimiento','Utilidad'].includes(filtro)){
+      pool=FF_CHARS.filter(c=>c.cat===filtro);
+    }
+    if(!pool.length) pool=FF_CHARS;
+    const char=randFrom(pool);
+    const retos=[
+      `Juega ${char.n} como personaje principal. Gana sin usar ninguna curación manual.`,
+      `Usa a ${char.n} y haz 5 kills en una sola partida activando su habilidad cada vez que puedas.`,
+      `Pon a ${char.n} de principal y no uses vehículos en toda la partida.`,
+      `Combina a ${char.n} con solo personajes que hayas desbloqueado sin diamantes.`,
+    ];
+    const retoHint=randFrom(retos);
+    const box=document.getElementById('randomCardBig');
+    box.classList.add('has-char');
+    box.innerHTML=`<div style="width:100%" class="pop-in">
+      <div class="rand-char-header">
+        <div class="rand-avatar">${avatarLetter(char.n)}</div>
+        <div class="rand-char-info">
+          <div class="rand-char-name">${char.n}</div>
+          <div class="rand-char-type">${badgeHtml(char.t)} <span style="color:${catColor(char.cat)};font-size:.78rem;margin-left:6px">${char.cat}</span></div>
+        </div>
+      </div>
+      <div class="rand-skill-block">
+        <div class="rand-skill-name">${char.skill}</div>
+        <div class="rand-skill-desc">${char.desc}</div>
+      </div>
+      <div class="rand-reto-hint">💡 Reto sugerido: ${retoHint}</div>
+    </div>`;
+
+    randStreak.unshift(char);
+    if(randStreak.length>8) randStreak.pop();
+    const streak=document.getElementById('randomStreak');
+    streak.style.display='block';
+    document.getElementById('streakList').innerHTML=randStreak.map(c=>`
+      <span class="streak-chip ${c.t==='A'?'activa':c.t==='P'?'pasiva':''}">${c.n}</span>`).join('');
+  }
+
+  /* ══════════════════════════════
+     TAB 3 — TODOS LOS PERSONAJES
+  ══════════════════════════════ */
+  let todosFiltroActivo='todos';
+
+  function setTodosFiltro(f,btn){
+    todosFiltroActivo=f;
+    document.querySelectorAll('.todos-pill').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    filtrarTodos();
+  }
+
+  function filtrarTodos(){
+    const q=(document.getElementById('todosSearch').value||'').toLowerCase();
+    const rows=FF_CHARS.filter(c=>{
+      const matchQ=!q||c.n.toLowerCase().includes(q)||c.skill.toLowerCase().includes(q)||c.desc.toLowerCase().includes(q)||c.cat.toLowerCase().includes(q);
+      const matchF=todosFiltroActivo==='todos'||c.t===todosFiltroActivo;
+      return matchQ&&matchF;
+    });
+    document.getElementById('todosStats').textContent=`Mostrando ${rows.length} de ${FF_CHARS.length} personajes`;
+    document.getElementById('todosGrid').innerHTML=rows.map(c=>`
+      <div class="todos-card" onclick="verPersonaje('${c.n}')">
+        <div class="todos-card-header">
+          <span class="todos-card-name">${c.n}</span>
+          ${badgeHtml(c.t)}
+        </div>
+        <div class="todos-card-skill">${c.skill}</div>
+        <div class="todos-card-desc">${c.desc}</div>
+        <div class="todos-card-cat" style="color:${catColor(c.cat)}">${c.cat}</div>
+      </div>`).join('');
+  }
+
+  function renderTodos(){ filtrarTodos(); }
+
+  function verPersonaje(nombre){
+    const c=FF_CHARS.find(x=>x.n===nombre);
+    if(!c) return;
+    switchRulTab(2);
+    document.getElementById('randomCardBig').classList.add('has-char');
+    document.getElementById('randomCardBig').innerHTML=`<div style="width:100%" class="pop-in">
+      <div class="rand-char-header">
+        <div class="rand-avatar">${avatarLetter(c.n)}</div>
+        <div class="rand-char-info">
+          <div class="rand-char-name">${c.n}</div>
+          <div class="rand-char-type">${badgeHtml(c.t)} <span style="color:${catColor(c.cat)};font-size:.78rem;margin-left:6px">${c.cat}</span></div>
+        </div>
+      </div>
+      <div class="rand-skill-block">
+        <div class="rand-skill-name">${c.skill}</div>
+        <div class="rand-skill-desc">${c.desc}</div>
+      </div>
+      <div class="rand-reto-hint">💡 Tip: Haz clic en "⚡ Personaje Random" para obtener uno al azar.</div>
+    </div>`;
+  }
+  </script>
