@@ -89,7 +89,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 /* ════════════════════════════════════════════════
    GENERADOR DE RETOS CON IA
 ════════════════════════════════════════════════ */
+// En scripts.js, al inicio de generarReto():
+const apiKey = localStorage.getItem('ffApiKey');
+if (!apiKey) {
+  const k = prompt('Pega tu clave de API de Anthropic para usar el generador:');
+  if (!k) return;
+  localStorage.setItem('ffApiKey', k);
+}
 
+// Luego en el fetch, agrega el header:
+headers: {
+  'Content-Type': 'application/json',
+  'x-api-key': apiKey,
+  'anthropic-version': '2023-06-01'
+}
 let retoHistorial = JSON.parse(localStorage.getItem('ffRetoHistorial') || '[]');
 
 function actualizarHistorial(texto, emoji) {
